@@ -1,0 +1,73 @@
+import radio from '../assets/images/radio.png';
+import metr from '../assets/images/multimetr.png';
+import paper from '../assets/images/paper.png';
+import {NoTransformSpan} from '../components/shared/NoTransormSpan';
+export const LEVEL_TO_MODAL = {
+    level1: {
+        title: 'Офис. Место, где рождаются идеи',
+        text: <>Добро пожаловать на стажировку <NoTransformSpan>в Билайн!</NoTransformSpan> Твоя задача — познакомиться с коллегами, прогуляться по офису и предложить решения</>,
+        backImageProps: {
+            src: paper,
+            top: -77,
+            left: 33,
+            width: 217,
+            height: 125,
+            extra: `transform: rotate(20deg);`
+        },
+        imageProps: {
+            src: paper,
+            top: -87,
+            left: 16,
+            width: 217,
+            height: 125,
+            extra: `transform: rotate(-20deg);`
+        },
+        bottom: 10,
+        endTitle: 'План готов. Время\nдействовать!',
+        endButtonText: 'выйти в город',
+        endText: <>ты не прошёл мимо. твоя инициатива уже делает сеть умнее! так <NoTransformSpan>в Билайне</NoTransformSpan> начинается путь инженера — с твоего слова. слово за тобой</>,
+    },
+    level2: {
+        title: 'Город. Сеть\nв твоих руках',
+        text: 'Сеть держится на доверии, надежности и экспертизе. Твоя смелость и точность настройки обеспечат связь для тысяч людей',
+        shouldBalance: true,
+        backImageProps: {
+            src: metr,
+            top: -50,
+            left: 58,
+            width: 88,
+            height: 136,
+            extra: `transform: rotate(20deg);`
+        },
+        imageProps: {
+            src: metr,
+            top: -99,
+            left: 36,
+            width: 88,
+            height: 136,
+            extra: `transform: rotate(-20deg);`
+        },
+        bottom: 20,
+    },
+    level3: {
+        title: 'Экстренный вызов.\nРеши задачу',
+        text: 'Когда сеть «легла», счёт идёт на минуты. Твоя способность быстро принимать решения поможет вернуть связь целому району.\nГотов к настоящему вызову?',
+        shouldBalance: true,
+        backImageProps: {
+            src: radio,
+            top: -110,
+            left: 55,
+            width: 57,
+            height: 155,
+            extra: `transform: rotate(20deg);`
+        },
+        imageProps: {
+            src: radio,
+            top: -150,
+            left: 34,
+            width: 69,
+            height: 188,
+            extra: `transform: rotate(-15deg);`
+        },
+    },
+};

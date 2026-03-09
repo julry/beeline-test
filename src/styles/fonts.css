@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Beeline Sans';
+    src: local('Beeline Sans Black'), local('Beeline-Sans-Black'),
+        url('../assets/fonts/BeelineSans-Black.woff2') format('woff2'),
+        url('../assets/fonts/BeelineSans-Black.woff') format('woff'),
+        url('../assets/fonts/BeelineSans-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Beeline Sans';
+    src: local('Beeline Sans Medium'), local('Beeline-Sans-Medium'),
+        url('../assets/fonts/BeelineSans-Medium.woff2') format('woff2'),
+        url('../assets/fonts/BeelineSans-Medium.woff') format('woff'),
+        url('../assets/fonts/BeelineSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
