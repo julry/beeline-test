@@ -73,11 +73,12 @@ const CookieWrapper = styled(Block)`
 
     & button {
         position: absolute;
-        bottom: ${({$ratio}) => $ratio * 20}px;
-        right: ${({$ratio}) => $ratio * 20}px;
+        bottom: ${({$ratio}) => $ratio * -25}px;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 3;
-        width: ${({$ratio}) => $ratio * 120}px;
-        height: ${({$ratio}) => $ratio * 50}px;
+        width: ${({$ratio}) => $ratio * 60}px;
+        height: ${({$ratio}) => $ratio * 30}px;
         padding: 0;
     }
 `;
@@ -90,14 +91,14 @@ export function ScreenTemplate(props) {
     const wrapperInnerRef = useRef();
 
     useEffect(() => {
-        const isAgreedCookies = localStorage.getItem('beeline_cookies_agreed');
+        const isAgreedCookies = localStorage.getItem('bee_cookies_agreed');
         if (isAgreedCookies) return;
 
         setIsCookies(!isAgreedCookies);
     }, []);
 
     const handleClick = () => {
-        localStorage.setItem('beeline_cookies_agreed', true);
+        localStorage.setItem('bee_cookies_agreed', true);
         setIsCookies(false);
     };
 
@@ -116,13 +117,15 @@ export function ScreenTemplate(props) {
                                         height={68}
                                         br={25}
                                         transformProps={{perspective: 600, rotateY: -22}}
-                                        onClick={handleClick}
                                     >
                                         <p>Мы используем куки. Играя,  ты{' '}
                                         <a href="https://fut.ru/cookie" target="_blank" rel="noreferrer">
                                             соглашаешься с этим
                                         </a>
                                         </p>
+                                        <Button
+                                            onClick={handleClick}
+                                        >окей</Button>
                                     </CookieWrapper>
                                 )
                             }

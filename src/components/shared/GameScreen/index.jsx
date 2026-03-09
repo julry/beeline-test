@@ -154,7 +154,7 @@ const NextButtonWrapper = styled(motion.div)`
 const EndButtonStyled = styled(Button)`
     position: absolute;
     left: 50%;
-    bottom: var(--spacing_x3);
+    bottom: ${({$bottom}) => $bottom ?? 'var(--spacing_x3)'};
     transform: translateX(-50%);
 `;
 
@@ -194,12 +194,15 @@ export const GameScreen = (
     const handleClickRight = () => {
         const { movements, availableLeft } = getParts();
 
+        if (part === movements.length) { 
+            return;
+        }
+
         setPart(prev => Math.min(movements.length, prev + 1));
         setImageX(prev => Math.max(-availableLeft, prev - movements[part]));
     };
 
     const handleClick = (id) => {
-        console.log(id);
         if (answeredSubjects.includes(id)) return;
         setChosen(id);
     }
@@ -229,7 +232,7 @@ export const GameScreen = (
 
         handleNext();
     };
-    
+
     const endModal = useMemo(() => LEVEL_TO_MODAL[lvlId], [lvlId]);
 
     return (
@@ -302,10 +305,10 @@ export const GameScreen = (
                 </BlockStyled>
             </ModalStyled>
             <Modal isOpen={isFinishModal}>
-                <Block backImageProps={endModal?.backImageProps} imageProps={endModal?.imageProps}>
+                <Block backImageProps={endModal?.backImageProps} imageProps={endModal?.imageProps} svgSizes={endModal?.endModalSize} backgroundSvg={endModal?.endModalSvg}>
                     <Title>{endModal?.endTitle}</Title>
                     <Text>{endModal?.endText}</Text>
-                    <EndButtonStyled onClick={handleEndGame}>
+                    <EndButtonStyled onClick={handleEndGame} $bottom={endModal?.endButtonBottom}>
                         {endModal?.endButtonText}
                     </EndButtonStyled>
                 </Block>

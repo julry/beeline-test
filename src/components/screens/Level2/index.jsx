@@ -1,10 +1,7 @@
-import lvl1Bg from "../../../assets/images/fullLevel1.png";
-import desk from "../../../assets/images/deskLevel1.png";
-import man from "../../../assets/images/manLevel1.png";
-import map from "../../../assets/images/mapLevel1.png";
-import manThink1 from "../../../assets/images/officeManThink1.svg";
-import manThink2 from "../../../assets/images/officeManThink2.svg";
-import girlThink from "../../../assets/images/officeGirlThink.svg";
+import lvl2Bg from "../../../assets/images/fullLevel2.png";
+import building from "../../../assets/images/building.png";
+import wires from "../../../assets/images/wires.png";
+import box from "../../../assets/images/box.png";
 import { useRef } from "react";
 import { Subjects } from "./Subjects";
 import { GameScreen } from "../../shared/GameScreen";
@@ -18,45 +15,27 @@ export const Level2 = () => {
     const wrapperRef = useRef();
 
     const getParts = () => {
-        const k = wrapperRef.current.offsetHeight / wrapperRef.current.offsetWidth;
-        const k1 = 677 / 375;
-        const firstPart = 225 * k / k1 * wrapperRef.current.offsetHeight / 677;
         const availableLeft = imageRef?.current.offsetWidth - wrapperRef.current.offsetWidth;
 
-        return {movements: [firstPart, availableLeft - firstPart], availableLeft};
+        return {movements: [availableLeft], availableLeft};
     }
 
 
     const subjects = [
         {
-            id: 'desk',
-            src: desk,
-            shouldRender: (answers) => answers.includes('desk') 
+            id: 'box',
+            src: box,
+            shouldRender: (answers) => answers.includes('box') 
         },
         {
-            id: 'man',
-            src: man,
-            shouldRender: (answers) => answers.includes('man') 
+            id: 'wires',
+            src: wires,
+            shouldRender: (answers) => answers.includes('wires') 
         },
         {
-            id: 'map',
-            src: map,
-            shouldRender: (answers) => answers.includes('map') 
-        },
-        {
-            id: 'manT',
-            src: manThink1,
-            shouldRender: (answers) => !answers.includes('man') 
-        },
-        {
-            id: 'manT2',
-            src: manThink2,
-            shouldRender: (answers) => answers.includes('man') 
-        },
-        {
-            id: 'girlT',
-            src: girlThink,
-            shouldRender: (answers) => answers.includes('desk') 
+            id: 'building',
+            src: building,
+            shouldRender: (answers) => answers.includes('building') 
         },
     ];
 
@@ -64,7 +43,7 @@ export const Level2 = () => {
         <GameScreen 
             subjects={subjects}
             SubjectComponent={Subjects}
-            lvlBg={lvl1Bg}
+            lvlBg={lvl2Bg}
             getParts={getParts}
             imageRef={imageRef}
             wrapperRef={wrapperRef}

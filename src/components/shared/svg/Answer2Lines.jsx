@@ -1,5 +1,5 @@
-export const Answer2Lines = () => (
-    <svg width="100%" height="100%" viewBox="0 0 316 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const Answer2Lines = ({isMirror}) => (
+    <svg width="100%" height="100%" viewBox="0 0 316 68" fill="none" xmlns="http://www.w3.org/2000/svg" style={isMirror ? {transform: 'scale(-1,1)'} : {}}>
         <path d="M34.4771 0.760254L291.331 7.15869C302.557 7.43837 312.06 15.5303 314.125 26.5688C316.784 40.7756 306.267 54.052 291.829 54.7144L35.1646 66.4878C12.8755 67.5101 -3.93958 46.5115 1.93018 24.9849C5.91195 10.3825 19.3462 0.383312 34.4771 0.760254Z" stroke="black" stroke-width="1.5"/>
     </svg>
 )

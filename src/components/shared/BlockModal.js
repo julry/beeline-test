@@ -44,7 +44,7 @@ const Image = styled.img`
     top: ${({$top}) => $top}px;
     left: ${({$left}) => $left}%;
     ${({$imageProps}) => $imageProps};
-    z-index: 3;
+    z-index: 4;
     pointer-events: none;
 `;
 
