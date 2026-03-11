@@ -54,7 +54,7 @@ export const LEVEL_TO_MODAL = {
         endButtonBottom: 'var(--spacing_x1)',
         endModalSize: [353, 223],
         endModalSvg: (
-            <svg width="100%" height="100%" viewBox="0 0 353 223" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="100%" height="100%" viewBox="0 0 353 223" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
                 <path d="M7.60308 63.7907C10.9365 26.3676 43.2189 -1.74984 80.7454 0.084903L282.935 9.9704C318.741 11.721 347.437 40.2385 349.411 76.0319L352.016 123.269C354.052 160.176 327.041 192.305 290.333 196.641L78.2176 221.693C34.0936 226.904 -3.65864 190.221 0.283399 145.966L7.60308 63.7907Z" fill="white"/>
             </svg>
         )
@@ -79,5 +79,25 @@ export const LEVEL_TO_MODAL = {
             height: 188,
             extra: `transform: rotate(-15deg);`
         },
+        endTitleLose: 'все приходит с опытом!',
+        endTitle: 'Связь восстановлена',
+        endButtonText: 'далее',
+        endButtonTextLose: 'попробовать ещё раз',
+        endText: 'В экстренной ситуации нет простых решений. Есть выбор — как быстро, как глубоко и какой ценой.\nТы справился с вызовом',
+        endTextLose: 'в экстренной ситуации промедление критично. уровень начнётся заново — попробуй принять решение быстрее',
+        endButtonBottom: 'var(--spacing_x5)',
+        endButtonBottomLose: '0',
+        endModalSize: [353, 223],
+        endModalSvg: (
+            <svg width="353" height="223" viewBox="0 0 353 223" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.60308 63.7907C10.9365 26.3676 43.2189 -1.74984 80.7454 0.084903L282.935 9.9704C318.741 11.721 347.437 40.2385 349.411 76.0319L352.016 123.269C354.052 160.176 327.041 192.305 290.333 196.641L78.2176 221.693C34.0936 226.904 -3.65864 190.221 0.283399 145.966L7.60308 63.7907Z" fill="white"/>
+            </svg>
+        ),
+        endModalSizeLose: [353, 223],
+        endModalSvgLose: (
+            <svg width="100%" height="100%" viewBox="0 0 353 223" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+                <path d="M7.60308 63.7907C10.9365 26.3676 43.2189 -1.74984 80.7454 0.084903L282.935 9.9704C318.741 11.721 347.437 40.2385 349.411 76.0319L352.016 123.269C354.052 160.176 327.041 192.305 290.333 196.641L78.2176 221.693C34.0936 226.904 -3.65864 190.221 0.283399 145.966L7.60308 63.7907Z" fill="white"/>
+            </svg>
+        )
     },
 };

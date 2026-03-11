@@ -25,17 +25,17 @@ export const Level2 = () => {
         {
             id: 'box',
             src: box,
-            shouldRender: (answers) => answers.includes('box') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'box') 
         },
         {
             id: 'wires',
             src: wires,
-            shouldRender: (answers) => answers.includes('wires') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'wires' && answer.answer === 2) 
         },
         {
             id: 'building',
             src: building,
-            shouldRender: (answers) => answers.includes('building') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'building') 
         },
     ];
 

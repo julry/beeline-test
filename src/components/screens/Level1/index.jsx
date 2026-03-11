@@ -31,32 +31,32 @@ export const Level1 = () => {
         {
             id: 'desk',
             src: desk,
-            shouldRender: (answers) => answers.includes('desk') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'desk') 
         },
         {
             id: 'man',
             src: man,
-            shouldRender: (answers) => answers.includes('man') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'man' && answer.answer === 2) 
         },
         {
             id: 'map',
             src: map,
-            shouldRender: (answers) => answers.includes('map') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'map') 
         },
         {
             id: 'manT',
             src: manThink1,
-            shouldRender: (answers) => !answers.includes('man') 
+            shouldRender: (answers) => !answers.find(answer => answer.name === 'man') 
         },
         {
             id: 'manT2',
             src: manThink2,
-            shouldRender: (answers) => answers.includes('man') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'man' && answer.answer === 2) 
         },
         {
             id: 'girlT',
             src: girlThink,
-            shouldRender: (answers) => answers.includes('desk') 
+            shouldRender: (answers) => answers.find(answer => answer.name === 'desk') 
         },
     ];
 

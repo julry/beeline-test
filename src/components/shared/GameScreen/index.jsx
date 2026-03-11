@@ -69,6 +69,10 @@ const SubjectsWrapper = styled(motion.div)`
     & svg {
         position: relative;
         z-index: 4;
+
+        & rect {
+            cursor: pointer;
+        }
     }
 `;
 
@@ -112,6 +116,7 @@ const Answer = styled.li`
     padding: ${({ $padding }) => $padding ?? 'var(--spacing_x3) 0 var(--spacing_x4)'};
     border-radius: 100px;
     font-size: var(--font-size_md);
+    cursor: pointer;
     
     &::marker {
         margin-left: var(--spacing_x4);
@@ -125,6 +130,7 @@ const Answer = styled.li`
 const AfterText = styled(motion.p)`
     padding: 0 var(--spacing_x2) var(--spacing_x5);
     transform-origin: 0% 0%;
+    padding-left: 0;
 `;
 
 const LongSvg = styled(motion.div)`
@@ -203,7 +209,7 @@ export const GameScreen = (
     };
 
     const handleClick = (id) => {
-        if (answeredSubjects.includes(id)) return;
+        if (answeredSubjects.find(subject => subject.name === id)) return;
         setChosen(id);
     }
 
@@ -211,7 +217,7 @@ export const GameScreen = (
 
     const handleAnswer = (answer, answerIndex) => {
         if (answered) return;
-        setAnsweredSubjects(prev => [...prev, chosen]);
+        setAnsweredSubjects(prev => [...prev, {name: chosen, answer: answerIndex}]);
         setAnswered(answer.id);
         setAnswerPoints(prev => [...prev, answerIndex]);
     }

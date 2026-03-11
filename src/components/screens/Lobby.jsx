@@ -97,6 +97,7 @@ const Paper = styled(BoxImage)`
     left: ${11.5 / 350 * 100}%;
     height: ${135.2 / 383 * 100}%;
     width: ${201.2 / 350 * 100}%;
+    cursor: pointer;
 `;
 
 const Metr = styled(BoxImage)`
@@ -105,6 +106,7 @@ const Metr = styled(BoxImage)`
     width: ${79 / 350 * 100}%;
     height: ${145 / 383 * 100}%;
     z-index: 4;
+    cursor: pointer;
 `;
 
 const Radio = styled(BoxImage)`
@@ -112,6 +114,7 @@ const Radio = styled(BoxImage)`
     left: ${241 / 350 * 100}%;
     width: ${45 / 350 * 100}%;
     height: ${123 / 383 * 100}%;
+    cursor: pointer;
 `;
 
 const Highlighted = styled(BoxImage)`
@@ -134,7 +137,9 @@ export const Lobby = () => {
     const isLast = levels.length === 2;
     const isSecond = levels.length === 1;
 
-    const handleClick = (level) => {
+    const handleClick = (level, canBeClicked) => {
+        if (!canBeClicked) return;
+        
         setChosen(level);
     }
 
@@ -154,9 +159,9 @@ export const Lobby = () => {
             <LogoRight $ratio={ratio} src={logoR} alt="" />
             <BoxWrapper  $ratio={ratio}>
                 <Box $ratio={ratio} src={box} alt="" />
-                <Radio src={radio} alt="" onClick={() => handleClick(SCREEN_NAMES.LEVEL3)}/>
-                <Metr src={metr} alt="" onClick={() => handleClick(SCREEN_NAMES.LEVEL2)}/>
-                <Paper src={paper} alt="" onClick={() => handleClick(SCREEN_NAMES.LEVEL1)}/>
+                <Radio src={radio} alt="" onClick={() => handleClick(SCREEN_NAMES.LEVEL3, isLast)}/>
+                <Metr src={metr} alt="" onClick={() => handleClick(SCREEN_NAMES.LEVEL2, isSecond)}/>
+                <Paper src={paper} alt="" onClick={() => handleClick(SCREEN_NAMES.LEVEL1, isFirst)}/>
                 {isFirst && (<Highlighted src={paperHighlighted} alt=""/>)}
                 {isSecond && (<Highlighted src={metrHighlighted} alt=""/>)}
                 {isLast && (<Highlighted src={radioHighlighted} alt=""/>)}
