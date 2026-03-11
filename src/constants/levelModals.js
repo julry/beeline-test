@@ -85,7 +85,7 @@ export const LEVEL_TO_MODAL = {
         endButtonTextLose: 'попробовать ещё раз',
         endText: 'В экстренной ситуации нет простых решений. Есть выбор — как быстро, как глубоко и какой ценой.\nТы справился с вызовом',
         endTextLose: 'в экстренной ситуации промедление критично. уровень начнётся заново — попробуй принять решение быстрее',
-        endButtonBottom: 'var(--spacing_x5)',
+        endButtonBottom: 'var(--spacing_x4)',
         endButtonBottomLose: '0',
         endModalSize: [353, 223],
         endModalSvg: (

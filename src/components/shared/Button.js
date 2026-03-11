@@ -15,7 +15,7 @@ const Wrapper = styled.button`
     font-weight: 700;
     width: 100%;
     font-size: ${({$ratio}) => $ratio * 18}px;
-    max-width: 293px;
+    max-width: ${({$ratio}) => $ratio * 293}px;
     cursor: pointer;
     color: #FFFFFF;
 `;

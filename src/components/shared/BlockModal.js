@@ -16,8 +16,8 @@ const Content = styled.div`
     position: relative;
     inset: 0;
     z-index: 3;
-    padding: ${({$ratio}) => $ratio * 36}px ${({$ratio}) => $ratio * 22}px;
-    width: min(96vw, 363px);
+    padding: ${({$ratio}) => $ratio * 36}px ${({$ratio}) => $ratio * 20}px;
+    width: 100%;
     white-space: pre-line;
     transition: height 0.3s;
 
@@ -35,6 +35,7 @@ const Content = styled.div`
 
 const Wrapper = styled.div`
     position: relative;
+    width: ${({$sizes, $ratio}) => $ratio * $sizes?.[0]}px;
 `;
 
 const Image = styled.img`
@@ -56,7 +57,7 @@ export const Block = ({imageProps, backgroundSvg, backImageProps, animateBack, t
     const ratio = useSizeRatio();
 
     return (
-        <Wrapper>
+        <Wrapper $ratio={ratio} $sizes={svgSizes}>
             <TrapezoidWrapper $ratio={ratio} $sizes={svgSizes} animate={animateBack} transition={transitionBack}>
                 {backgroundSvg ?? (
                     <svg width="100%" height="100%" viewBox="0 0 353 257" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">

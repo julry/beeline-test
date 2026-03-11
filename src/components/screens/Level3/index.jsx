@@ -21,6 +21,7 @@ const Wrapper = styled.div`
     height: 100%;
     transition: filter 0.3s, transform 0.3s;
     ${({ $isModal }) => $isModal ? 'filter: blur(5px); transform: scale(1.04);' : ''};
+    background-color: #000000;
 
     & svg {
         position: relative;
@@ -31,8 +32,9 @@ const Wrapper = styled.div`
 const Image = styled(motion.img)`
     position: absolute;
     height: 100%;
-    width: auto;
-    object-fit: contain;
+    width: 100%;
+    object-fit: cover;
+    object-position: 0% 0%;
     z-index: 2;
 `;
 
@@ -152,6 +154,7 @@ export const Level3 = () => {
         setChosen(prev => prev + 1);
         setAnswered();
         restart();
+        // eslint-disable-next-line 
     }, [chosen]);
 
 
@@ -165,7 +168,7 @@ export const Level3 = () => {
         setIsLose(true);
         setIsFinishModal(true);
         setChosen();
-    }, [answered]);
+    }, [answered, handleNextQuestion]);
 
     const {formatted, start, reset, restart} = useTimer(10, timeFinished);
 
@@ -238,8 +241,8 @@ export const Level3 = () => {
                     </AnswerBlock>
                     <TimerWrapper 
                         initial={{x: '-50%'}} 
-                        animate={answered ? {y: questionModal?.svgSizes?.backgroundSvgBig[1] - questionModal?.svgSizes?.backgroundSvg[1]} : {}} 
-                        $top={questionModal?.svgSizes?.backgroundSvg[1]} $ratio={ratio}
+                        animate={answered ? {y: (questionModal?.svgSizes?.backgroundSvgBig[1] - questionModal?.svgSizes?.backgroundSvg[1]) * ratio} : {}} 
+                        $top={(questionModal?.svgSizes?.backgroundSvg[1] ?? 0) * ratio} $ratio={ratio}
                         transition={{duration: 0.3}}
                     > 
                         <p>{formatted}</p>
