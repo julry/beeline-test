@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.c250cddb.css",
-    "main.js": "./static/js/main.8efe3411.js",
+    "main.js": "./static/js/main.c181bee2.js",
     "static/media/fullLevel1.png": "./static/media/fullLevel1.cf26f1239c674e37a286.png",
     "static/media/fullLevel2.png": "./static/media/fullLevel2.ff770ed05f778b569b92.png",
     "static/media/fullLevel3.png": "./static/media/fullLevel3.b7523aaa7b9de0f6e436.png",
@@ -18,6 +18,7 @@
     "static/media/wires.png": "./static/media/wires.231ef170aad23b4d35d0.png",
     "static/media/deskLevel1.png": "./static/media/deskLevel1.bb4da8af733a7e204fab.png",
     "static/media/building-new.png": "./static/media/building-new.ae99f27619565309e0a4.png",
+    "static/media/finishBlock.svg": "./static/media/finishBlock.73568aecdb4faa084bb54251143bf358.svg",
     "static/media/BeelineSans-Medium.ttf": "./static/media/BeelineSans-Medium.73622ef0b744b3ee54c9.ttf",
     "static/media/BeelineSans-Black.ttf": "./static/media/BeelineSans-Black.27abc2af9b956b657240.ttf",
     "static/media/man-new.png": "./static/media/man-new.9fa00467018cef946b8f.png",
@@ -51,10 +52,10 @@
     "static/media/logo.svg": "./static/media/logo.467b62134fa3c6152a5f0db9901dd5e8.svg",
     "index.html": "./index.html",
     "main.c250cddb.css.map": "./static/css/main.c250cddb.css.map",
-    "main.8efe3411.js.map": "./static/js/main.8efe3411.js.map"
+    "main.c181bee2.js.map": "./static/js/main.c181bee2.js.map"
   },
   "entrypoints": [
     "static/css/main.c250cddb.css",
-    "static/js/main.8efe3411.js"
+    "static/js/main.c181bee2.js"
   ]
 }
