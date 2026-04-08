@@ -2,6 +2,9 @@ import lvl1Bg from "../../../assets/images/fullLevel1.png";
 import desk from "../../../assets/images/deskLevel1.png";
 import man from "../../../assets/images/manLevel1.png";
 import map from "../../../assets/images/mapLevel1.png";
+import deskN from "../../../assets/images/desk-new.png";
+import manN from "../../../assets/images/man-new.png";
+import mapN from "../../../assets/images/map-new.png";
 import manThink1 from "../../../assets/images/officeManThink1.svg";
 import manThink2 from "../../../assets/images/officeManThink2.svg";
 import girlThink from "../../../assets/images/officeGirlThink.svg";
@@ -39,9 +42,24 @@ export const Level1 = () => {
             shouldRender: (answers) => answers.find(answer => answer.name === 'man' && answer.answer === 2) 
         },
         {
+            id: 'man-new',
+            src: manN,
+            shouldRender: (answers) => !answers.find(answer => answer.name === 'man') 
+        },
+        {
             id: 'map',
             src: map,
             shouldRender: (answers) => answers.find(answer => answer.name === 'map') 
+        },
+        {
+            id: 'map-new',
+            src: mapN,
+            shouldRender: (answers) => !answers.find(answer => answer.name === 'map') 
+        },
+        {
+            id: 'desk-new',
+            src: deskN,
+            shouldRender: (answers) => !answers.find(answer => answer.name === 'desk') 
         },
         {
             id: 'manT',
@@ -70,6 +88,7 @@ export const Level1 = () => {
             wrapperRef={wrapperRef}
             lvlId='level1'
             handleNext={() => next()}
+            metrika={"mapFinish"}
         />
     )
 }

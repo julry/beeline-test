@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import bridge from '@vkontakte/vk-bridge';
 import './styles/index.css';
 import App from './App';
+
+bridge?.send?.("VKWebAppInit");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

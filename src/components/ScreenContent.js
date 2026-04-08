@@ -1,8 +1,8 @@
-import {useEffect} from "react";
+import {useEffect, useMemo} from "react";
 import styled from 'styled-components';
 import {AnimatePresence, motion} from 'framer-motion';
 
-import { preloadImages } from "../constants/images";
+import { preloadImagesAll, preloadImagesLvl1, preloadImagesLvl2 } from "../constants/images";
 import {useProgress} from "../contexts/ProgressContext";
 import { useImagePreloader } from "../hooks/useImagePreloader";
 
@@ -15,16 +15,17 @@ const Wrapper = styled(motion.div)`
 `;
 
 export function ScreenContent() {
-    const {screen: Screen, currentScreen} = useProgress();
-    useImagePreloader(preloadImages);
+    const {screen: Screen, currentScreen, levels} = useProgress();
 
-    useEffect(() => {
-        const preventDefault = (e) => e.preventDefault();
-        
-        document.body.addEventListener('touchmove', preventDefault, { passive: false });
-        
-        return () => document.body.removeEventListener('touchmove', preventDefault);
-    }, [])
+    const preloadImages = useMemo(() => {
+        const last = levels[levels.length - 1];
+        if (!last) return preloadImagesLvl1;
+        if (last === 'level1') return preloadImagesLvl2;
+        if (last === 'level2') return preloadImagesAll;
+
+    }, [levels]);
+
+    useImagePreloader(preloadImages);
 
     return Screen && (
         <AnimatePresence mode="wait">

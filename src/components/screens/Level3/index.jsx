@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import lvlBg from '../../../assets/images/fullLevel3.png';
+import level3N from '../../../assets/images/level3-new.png';
 import lvlBgDone from '../../../assets/images/doneLevel3.png';
 import { useSizeRatio } from "../../../contexts/SizeRatioContext";
 import { questions } from "../../../constants/questions";
@@ -26,6 +27,10 @@ const Wrapper = styled.div`
     & svg {
         position: relative;
         z-index: 4;
+
+        & rect {
+            cursor: pointer;
+        }
     }
 `;
 
@@ -83,7 +88,6 @@ const Answer = styled.li`
 const AfterText = styled(motion.p)`
     padding: 0 var(--spacing_x2) var(--spacing_x5);
     transform-origin: 0% 0%;
-    padding-left: 0;
     ${({$afterTextStyle}) => $afterTextStyle};
 `;
 
@@ -101,21 +105,27 @@ const ModalStyled = styled(Modal)`
     padding-top: ${({$marginTop}) => $marginTop ?? 0}vh;
 
     @supports (padding-top: 10svh) {
-         padding-top: ${({$marginTop}) => $marginTop ?? 0}svh;
+        padding-top: ${({$marginTop}) => $marginTop ?? 0}svh;
+    }
+
+    @media screen and (min-width: 450px){
+        padding-top: min(${({$marginTop}) => ($marginTop ?? 0) / 100 * 677}px, ${({$marginTop}) => $marginTop ?? 0}svh);
     }
 `;
 
-const TimerWrapper = styled(motion.div)`
+const TimerWrapper = styled(motion.button)`
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     width: ${({$ratio}) => $ratio * 118}px;
     height: ${({$ratio}) => $ratio * 48}px;
+    font-size: ${({$ratio}) => $ratio * 18}px;
     border-radius: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--color-accent);
+    cursor:  ${({$answered}) => $answered ? 'pointer' : 'default'};
     top: calc(${({$top}) => $top}px - 1.5 * var(--spacing_x5));
 
     & p {
@@ -130,6 +140,15 @@ const EndButtonStyled = styled(Button)`
     transform: translateX(-50%);
 `;
 
+const ImageSubject = styled.img`
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+`;
+
 export const Level3 = () => {
     const ratio = useSizeRatio();
     const {endGame, next} = useProgress();
@@ -142,7 +161,16 @@ export const Level3 = () => {
     const [answered, setAnswered] = useState();
     const lvlQuestions = questions.level3;
 
-    const handleNextQuestion = useCallback(() => {
+    const timeFinished = useCallback(() => {
+        setIsLose(true);
+        setIsFinishModal(true);
+        setChosen();
+    }, []);
+
+    const {formatted, start, reset, restart} = useTimer(10, timeFinished);
+
+    const handleNextQuestion = () => {
+        if (!answered) return;
         if (chosen === lvlQuestions.length - 1) {
             setIsFinishModal(true);
             setIsDone(true);
@@ -154,23 +182,7 @@ export const Level3 = () => {
         setChosen(prev => prev + 1);
         setAnswered();
         restart();
-        // eslint-disable-next-line 
-    }, [chosen]);
-
-
-    const timeFinished = useCallback(() => {
-        if (answered) {
-            handleNextQuestion();
-
-            return;
-        } 
-
-        setIsLose(true);
-        setIsFinishModal(true);
-        setChosen();
-    }, [answered, handleNextQuestion]);
-
-    const {formatted, start, reset, restart} = useTimer(10, timeFinished);
+    };
 
     const handleClick = () => {
         setIsGameStarted(true);
@@ -183,6 +195,7 @@ export const Level3 = () => {
         if (answered) return;
         setAnswered(answer.id);
         setAnswerPoints(prev => [...prev, answerIndex]);
+        reset();
     }
 
     const handleEndGame = () => {
@@ -199,7 +212,7 @@ export const Level3 = () => {
 
         const second = answerPoints.filter((answer) => answer === 2).length;
         const first = answerPoints.length - second;
-        endGame({level: 'level3', answers: {first, second}});
+        endGame({level: 'level3', answers: {first, second}, metrika: 'radioFinish'});
 
         next(SCREEN_NAMES.FINAL);
     };
@@ -210,6 +223,7 @@ export const Level3 = () => {
         <>
             <Wrapper $isModal={isGameStarted}>
                 <Image src={isDone ? lvlBgDone : lvlBg} alt="" />
+                {!isGameStarted && (<ImageSubject src={level3N} alt="" />) }
                 <Subjects onClick={handleClick} />
             </Wrapper>
             <ModalStyled
@@ -240,12 +254,14 @@ export const Level3 = () => {
                         ))}
                     </AnswerBlock>
                     <TimerWrapper 
+                        onClick={handleNextQuestion}
                         initial={{x: '-50%'}} 
+                        $answered={answered}
                         animate={answered ? {y: (questionModal?.svgSizes?.backgroundSvgBig[1] - questionModal?.svgSizes?.backgroundSvg[1]) * ratio} : {}} 
                         $top={(questionModal?.svgSizes?.backgroundSvg[1] ?? 0) * ratio} $ratio={ratio}
                         transition={{duration: 0.3}}
                     > 
-                        <p>{formatted}</p>
+                        <p>{answered ? 'далее' : formatted}</p>
                     </TimerWrapper>
                     {
                         answered !== undefined && (

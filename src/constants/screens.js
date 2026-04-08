@@ -4,6 +4,7 @@ import {Level1} from '../components/screens/Level1';
 import { Final } from "../components/screens/Final";
 import { Level2 } from "../components/screens/Level2";
 import { Level3 } from "../components/screens/Level3";
+import { GiftFinish } from "../components/screens/GiftFinish";
 
 export const SCREEN_NAMES = {
     INTRO: 'Intro',
@@ -12,6 +13,7 @@ export const SCREEN_NAMES = {
     LEVEL2: 'Level2',
     LEVEL3: 'Level3',
     FINAL: 'Final',
+    FINISH: 'Finish',
 }
 
 export const screens = {
@@ -21,4 +23,5 @@ export const screens = {
     [SCREEN_NAMES.LEVEL2]: Level2,
     [SCREEN_NAMES.LEVEL3]: Level3,
     [SCREEN_NAMES.FINAL]: Final,
+    [SCREEN_NAMES.FINISH]: GiftFinish,
 }

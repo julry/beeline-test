@@ -46,6 +46,7 @@ const Image = styled.img`
     left: ${({$left}) => $left}%;
     ${({$imageProps}) => $imageProps};
     z-index: 4;
+    object-fit: contain;
     pointer-events: none;
 `;
 

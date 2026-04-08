@@ -2,7 +2,6 @@ import styled from "styled-components";
 import wordT from '../../assets/images/word.svg';
 import wordB from '../../assets/images/wordYou.svg';
 import logoL from '../../assets/images/logo.svg';
-import logoR from '../../assets/images/logo2.svg';
 import info from '../../assets/images/infoIntro.svg';
 import box from '../../assets/images/introBox.png';
 import { useSizeRatio } from "../../contexts/SizeRatioContext";
@@ -37,14 +36,6 @@ const LogoLeft = styled.img`
     width: ${({$ratio}) => $ratio * 92}px;
 `;
 
-const LogoRight = styled.img`
-    position: absolute;
-    object-fit: contain;
-    bottom: ${({$ratio}) => $ratio * 75}px;
-    left: ${({$ratio}) => $ratio * 152}px;
-    height: ${({$ratio}) => $ratio * 38}px;
-    width: ${({$ratio}) => $ratio * 38}px;
-`;
 const Box = styled.img`
     position: absolute;
     object-fit: cover;
@@ -60,10 +51,14 @@ const Content = styled.div`
     align-items: center;
     font-size:  ${({$ratio}) => $ratio * 18}px;
     gap: ${({$ratio}) => $ratio * 10}px;
-    padding: ${({$ratio}) => $ratio * 24}px ${({$ratio}) => $ratio * 5}px ${({$ratio}) => $ratio * 140}px;
+    padding: ${({$ratio}) => $ratio * 24}px ${({$ratio}) => $ratio * 10}px ${({$ratio}) => $ratio * 140}px;
+
+    & p {
+        text-wrap: balance;
+    }
 
     & button {
-        margin-top: ${({$ratio}) => $ratio * 15}px;
+        margin-top: ${({$ratio}) => $ratio * 5}px;
     }
 `;
 
@@ -72,34 +67,41 @@ const TextBlock = styled.img`
     z-index: 2;
     margin-top: ${({$ratio}) => $ratio * 184}px;
     padding-left: ${({$ratio}) => $ratio * 7}px;
-    height: ${({$ratio}) => $ratio * 158}px;
-    width: ${({$ratio}) => $ratio * 227}px;
+    height: ${({$ratio}) => $ratio * 145}px;
+    width: ${({$ratio}) => $ratio * 210}px;
     object-fit: contain;
 `;
 
 export const Intro = () => {
     const ratio = useSizeRatio();
-    const { next } = useProgress();
+    const { next, recordMetrika } = useProgress();
+
+    const handleNext = () => {
+        recordMetrika('gameStart');
+        next();
+    }
 
     return (
         <>
             <WordTop $ratio={ratio} src={wordT} alt="" />
             <WordBottom $ratio={ratio} src={wordB} alt="" />
             <LogoLeft $ratio={ratio} src={logoL} alt="" />
-            <LogoRight $ratio={ratio} src={logoR} alt="" />
             <TextBlock $ratio={ratio} src={info} alt="" />
             <Box $ratio={ratio} src={box} alt="" />
             <Content $ratio={ratio}>
                 <p>
-                    В <NoTransformSpan>Билайн</NoTransformSpan> верят, что настоящие
+                    В <NoTransformSpan>Билайне</NoTransformSpan> верят, что настоящие
                     перемены начинаются с инициативы
                 </p>
                 <p>
                     Проявляй смелость, помогай коллегам
-                    и предлагай решения, Посмотри, как твоё
+                    и предлагай решения. Посмотри, как твоё
                     слово оживляет и изменяет мир вокруг!
                 </p>
-                <Button onClick={() => next()}>
+                <p>
+                    Пройди игру и получи возможность участвовать в розыгрыше призов.
+                </p>
+                <Button onClick={handleNext}>
                     начать стажировку
                 </Button>
             </Content>

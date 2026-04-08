@@ -1,8 +1,8 @@
-import {useEffect, useRef, useState} from 'react';
+import {useRef} from 'react';
 import styled from 'styled-components';
 import {SizeRatioContextProvider} from '../contexts/SizeRatioContext';
-import { Block } from './shared/Block';
-import { Button } from './shared/Button';
+import { useProgress } from '../contexts/ProgressContext';
+
 
 const TARGET_WIDTH = 375;
 const TARGET_HEIGHT = 677;
@@ -38,7 +38,7 @@ const Content = styled.div`
     --spacing_x3: ${({$sizeRatio}) => `calc(15px * ${$sizeRatio})`};
     --spacing_x4: ${({$sizeRatio}) => `calc(20px * ${$sizeRatio})`};
     --spacing_x5: ${({$sizeRatio}) => `calc(25px * ${$sizeRatio})`};
-    background-color: var(--color-accent);
+    background-color: ${({$shouldUseTransparent}) => $shouldUseTransparent ? 'transparent' : 'var(--color-accent)'};
     
     @media (min-width: ${MIN_MOCKUP_WIDTH}px) {
         overflow: hidden;
@@ -50,85 +50,19 @@ const Content = styled.div`
     }
 `;
 
-const CookieWrapper = styled(Block)`
-    position: absolute;
-    bottom: ${({$ratio}) => $ratio * 40}px;
-    left: ${({$ratio}) => $ratio * 36}px;
-    padding: ${({$ratio}) => $ratio * 18}px 0;
-    width: ${({$ratio}) => $ratio * 184}px;
-    z-index: 1230;
-    display: flex;
-    justify-content: center;
-    transform: rotate(5deg);
-
-    & a, p {
-        max-width:  ${({$ratio}) => $ratio * 154}px;
-        font-weight: 500;
-        font-size: ${({$ratio}) => $ratio * 12}px;
-
-        &:active {
-            color: var(--color-dark);
-        }
-    }
-
-    & button {
-        position: absolute;
-        bottom: ${({$ratio}) => $ratio * -25}px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 3;
-        width: ${({$ratio}) => $ratio * 60}px;
-        height: ${({$ratio}) => $ratio * 30}px;
-        padding: 0;
-    }
-`;
-
 export function ScreenTemplate(props) {
-    const [isCookies, setIsCookies] = useState(false);
-
     const { children } = props;
+    const {currentScreen} = useProgress();
     const wrapperRef = useRef();
     const wrapperInnerRef = useRef();
-
-    useEffect(() => {
-        const isAgreedCookies = localStorage.getItem('bee_cookies_agreed');
-        if (isAgreedCookies) return;
-
-        setIsCookies(!isAgreedCookies);
-    }, []);
-
-    const handleClick = () => {
-        localStorage.setItem('bee_cookies_agreed', true);
-        setIsCookies(false);
-    };
 
     return (
         <SizeRatioContextProvider target={wrapperInnerRef} targetWidth={TARGET_WIDTH} targetHeight={TARGET_HEIGHT}>
             {(sizeRatio) => (
                 <Wrapper ref={wrapperRef}>
                     <WrapperInner ref={wrapperInnerRef}>
-                        <Content $sizeRatio={sizeRatio}>
+                        <Content $sizeRatio={sizeRatio} $shouldUseTransparent={currentScreen?.toLowerCase()?.includes('level')}>
                             {children}
-                            {
-                                isCookies && (
-                                     <CookieWrapper 
-                                        $ratio={sizeRatio}
-                                        width={174}
-                                        height={68}
-                                        br={25}
-                                        transformProps={{perspective: 600, rotateY: -22}}
-                                    >
-                                        <p>Мы используем куки. Играя,  ты{' '}
-                                        <a href="https://fut.ru/cookie" target="_blank" rel="noreferrer">
-                                            соглашаешься с этим
-                                        </a>
-                                        </p>
-                                        <Button
-                                            onClick={handleClick}
-                                        >окей</Button>
-                                    </CookieWrapper>
-                                )
-                            }
                         </Content>
                     </WrapperInner>
                 </Wrapper>

@@ -149,6 +149,10 @@ const ModalStyled = styled(Modal)`
     @supports (padding-top: 10svh) {
          padding-top: ${({$marginTop}) => $marginTop ?? 0}svh;
     }
+
+    @media screen and (min-width: 450px){
+        padding-top: min(${({$marginTop}) => ($marginTop ?? 0) / 100 * 677}px, ${({$marginTop}) => $marginTop ?? 0}svh);
+    }
 `;
 
 const NextButtonWrapper = styled(motion.div)`
@@ -173,7 +177,8 @@ export const GameScreen = (
         imageRef,
         wrapperRef,
         lvlId,
-        handleNext
+        handleNext,
+        metrika
     }
 ) => {
     const ratio = useSizeRatio();
@@ -234,7 +239,7 @@ export const GameScreen = (
     const handleEndGame = () => {
         const second = answerPoints.filter((answer) => answer === 2).length;
         const first = answerPoints.length - second;
-        endGame({level: lvlId, answers: {first, second}});
+        endGame({level: lvlId, answers: {first, second}, metrika});
 
         handleNext();
     };
