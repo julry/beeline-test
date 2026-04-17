@@ -5,6 +5,7 @@ import { Final } from "../components/screens/Final";
 import { Level2 } from "../components/screens/Level2";
 import { Level3 } from "../components/screens/Level3";
 import { GiftFinish } from "../components/screens/GiftFinish";
+import { EmailForm } from "../components/screens/EmailForm";
 
 export const SCREEN_NAMES = {
     INTRO: 'Intro',
@@ -14,6 +15,7 @@ export const SCREEN_NAMES = {
     LEVEL3: 'Level3',
     FINAL: 'Final',
     FINISH: 'Finish',
+    EMAIL: 'Email',
 }
 
 export const screens = {
@@ -24,4 +26,5 @@ export const screens = {
     [SCREEN_NAMES.LEVEL3]: Level3,
     [SCREEN_NAMES.FINAL]: Final,
     [SCREEN_NAMES.FINISH]: GiftFinish,
+    [SCREEN_NAMES.EMAIL]: EmailForm,
 }

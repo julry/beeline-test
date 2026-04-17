@@ -124,17 +124,13 @@ const ButtonStyled = styled(Button)`
 
 export const Lobby = () => {
     const [chosen, setChosen] = useState();
-    const {next, user, recordMetrika, levels = []} = useProgress();
+    const {next, recordMetrika, hasEmail, levels = []} = useProgress();
     const ratio = useSizeRatio();
-    const isRestarted = user.hasRestarted;
     
     const isFirst = levels.length === 0;
 
-    const isAvailableSecond = levels[levels.length - 1] === 'level1' && (isRestarted || (getDaysDiffFromNow(user.lastTime) >= 4));
-    const isAvailableThird = levels[levels.length - 1] === 'level2' && (isRestarted || (getDaysDiffFromNow(user.lastTime) >= 4));
-
-    const isEndModalFirst = !isRestarted && levels[levels.length - 1] === 'level1' && (getDaysDiffFromNow(user.lastTime) < 4);
-    const isEndModalSecond = !isRestarted && levels[levels.length - 1] === 'level2' && (getDaysDiffFromNow(user.lastTime) < 4);
+    const isAvailableSecond = levels[levels.length - 1] === 'level1';
+    const isAvailableThird = levels[levels.length - 1] === 'level2';
 
     const handleClick = (level, canBeClicked) => {
         if (!canBeClicked) return;
@@ -143,7 +139,6 @@ export const Lobby = () => {
     }
 
     const modalChosen = useMemo(() => chosen !== undefined ? LEVEL_TO_MODAL[chosen?.toLowerCase()] : undefined, [chosen]);
-
 
     const handleStart = () => {
         let metrika;
@@ -165,24 +160,9 @@ export const Lobby = () => {
         next(chosen);
     }
 
-    const getDaysAmount = () => {
-        const days = getDaysDiffFromNow(user.lastTime);
-
-        switch (days) {
-            case 3:
-                return 'один день';
-            case 2: 
-                return 'два дня'
-            case 1: 
-                return 'три дня';
-            case 0: 
-                return 'четыре дня';
-        }
-    }
-
     return (
         <>
-        <Wrapper $isModal={chosen !== undefined || isEndModalFirst || isEndModalSecond}>
+        <Wrapper $isModal={chosen !== undefined}>
             <WordTop $ratio={ratio} src={wordT} alt="" />
             <WordBottom $ratio={ratio} src={wordB} alt="" />
             <LogoLeft $ratio={ratio} src={logoL} alt="" />
@@ -203,40 +183,6 @@ export const Lobby = () => {
                     <ButtonStyled onClick={handleStart} $marginBottom={(modalChosen?.bottom ?? 0)* ratio}>
                         играть!
                     </ButtonStyled>
-            </Block>
-        </Modal>
-        <Modal isOpen={isEndModalFirst || isEndModalSecond}>
-            <Block 
-                imageProps={{
-                    src: boxModal,
-                    top: -144,
-                    left: 10,
-                    width: 238,
-                    height: 238,
-                    extra: 'transform: rotate(-20deg);'
-                }}
-                svgSizes={[354, 289]}
-                backgroundSvg={
-                    <svg width="100%" height="100%" viewBox="0 0 354 289" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8.86563 74.6145C11.8675 30.1586 50.6116 -3.27748 95.0284 0.256216L276.169 14.6673C316.438 17.871 348.001 50.5938 349.749 90.9526L353.316 173.285C355.069 213.738 326.319 249.123 286.364 255.689L92.9783 287.469C42.0987 295.83 -3.28659 254.583 0.187186 203.138L8.86563 74.6145Z" fill="white"/>
-                    </svg>
-                }
-            >
-                <Title $ratio={ratio}>{
-                    isEndModalFirst ? 'Первый день\nстажировки завершён!' : 'Смена окончена,\nсеть в порядке'
-                }</Title>
-                {
-                    isEndModalFirst ? (
-                        <Text $shouldBalance>
-                            Твои решения уже начали менять мир вокруг, но даже инженерам нужен отдых, чтобы восстановить силы. Приходи <b>через {getDaysAmount()}</b> — впереди новые вызовы, локации и твой шанс забрать крутые призы!
-                        </Text>
-                    ) : (
-                        <Text $shouldBalance>
-                            Ты отлично справился с городскими вызовами во второй день.{'\n'}Пора на подзарядку!{'\n\n'}
-                            <b>через {getDaysAmount()}</b> откроется финальный уровень — покажи, на что способен, и участвуй в розыгрыше
-                        </Text>
-                    )
-                }
             </Block>
         </Modal>
         </>

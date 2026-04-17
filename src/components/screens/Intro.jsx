@@ -74,10 +74,10 @@ const TextBlock = styled.img`
 
 export const Intro = () => {
     const ratio = useSizeRatio();
-    const { next, recordMetrika } = useProgress();
+    const { next, createUser } = useProgress();
 
     const handleNext = () => {
-        recordMetrika('gameStart');
+        createUser();
         next();
     }
 

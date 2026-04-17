@@ -79,8 +79,8 @@ export const GiftFinish = () => {
             <TextBlock $ratio={ratio} $size={[230 * ratio, 149 * ratio]} src={info} alt="" />
             <Box $ratio={ratio} src={box} alt="" />
             <Content $ratio={ratio}>
-                <Button onClick={() => window.open('https://fut.ru/s/radioelectronic2', '_blank')}>
-                   узнать о стажировке в Билайне
+                <Button onClick={() => window.open('', '_blank')}>
+                  зарегистрироваться в боте
                 </Button>
                 <Button onClick={restart}>
                     играть заново

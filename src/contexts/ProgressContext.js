@@ -1,14 +1,15 @@
 import { FTClient } from 'ft-client';
-import bridge from '@vkontakte/vk-bridge';
 import {createContext, useContext, useEffect, useRef, useState} from 'react';
 import {screens} from "../constants/screens";
 import { SCREEN_NAMES } from '../constants/screens';
 import {getUrlParam} from '../utils/getUrlParam';
+import { uid } from 'uid';
 
 const INITIAL_STATE = {
     screen: SCREEN_NAMES.INTRO,
     levels: [],
     user: {
+        email: '',
         metrika: {
             gameStart: false,
             mapStart: false,
@@ -17,10 +18,11 @@ const INITIAL_STATE = {
             multFinish: false,
             radioStart: false,
             radioFinish: false,
+            bot_final: false,
             prize: false,
+            bot_prize: false,
         },
     },
-    points: {first: 0, second: 0},
 }
 
 const ProgressContext = createContext(INITIAL_STATE);
@@ -29,56 +31,40 @@ export function ProgressProvider(props) {
     const {children} = props;
     const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
     const [levels, setLevels] = useState(INITIAL_STATE.levels);
-    const [points, setPoints] = useState(INITIAL_STATE.points); 
     const [user, setUser] = useState(INITIAL_STATE.user);
     const screen = screens[currentScreen];
 
     const client = useRef();
-    const recordId = useRef();
-
-    const getUserInfo = async () => {
-        const info = await bridge.send('VKWebAppGetUserInfo');
-        initState(info.id);
-        // initState(22823013);
-    };
-
+    const recordId = useRef('87f921e5-4b96-436c-9439-a5412a15d60a');
+    const hasEmail = useRef(false);
 
     useEffect(() => {
+        hasEmail.current = localStorage.getItem('itisuptoyou_email') === 'send';
+
         client.current = new FTClient(
             'https://games-admin.fut.ru/api/',
-            'vk-RPP'
+            'itisuptoyou'
         );
-
-        getUserInfo();
     }, []);
 
-    async function initState(vkId) {
-        const record = await client.current.findRecord('vkId', vkId ?? 22823013);
-
-        recordId.current = record?.id;
-
-        if (!record?.data) {
+    const createUser = async () => {
+        if (hasEmail.current) {
             return;
         }
 
-        const gameData = record.data.BeelineGame ?? {};
+        const metrika = {...user.metrika, gameStart: true};
+        const id = uid();
+        setUser(prev => ({...prev, metrika, id}));
 
-        const {levels: gameLevels, points: gamePoints, ...gameUser} = gameData;
-
-        setLevels(gameLevels ?? INITIAL_STATE.levels);
-        setPoints(gamePoints ?? INITIAL_STATE.points);
-        setUser(prev => ({...prev, ...(gameUser ?? {})}));
-
-        if (gameLevels && gameLevels?.length > 0) {
-            setCurrentScreen(gameLevels.includes('level3') ? SCREEN_NAMES.FINAL : SCREEN_NAMES.LOBBY);
-        }
+        const result = await client.current.createRecord({...user, id, metrika});
+        recordId.current = result.id;
     }
 
     const patchData = async (changed) => {
         if (!recordId.current) return;
         
         try {
-            const result = await client.current.patchRecord(recordId.current, {BeelineGame: {levels, points, ...user, ...changed}});
+            const result = await client.current.patchRecord(recordId.current, {...user, ...changed});
             return result;
         } catch (e) {
             console.log(e);
@@ -92,9 +78,6 @@ export function ProgressProvider(props) {
     }
 
     function endGame({level, metrika, answers = {}}) {
-        const levelPoints = {...points};
-        Object.entries(answers).forEach(([name, points]) => levelPoints[name] = ((levelPoints[name] ?? 0) + (points ?? 1)));
-        setPoints(levelPoints);
         setLevels(prev => [...prev, level]);
         const path = {...user.metrika};
 
@@ -106,20 +89,26 @@ export function ProgressProvider(props) {
 
         now.setHours(0,0,0,0);
 
-        setUser(prev => ({...prev, metrika: path, lastTime: +(now)}))
-        patchData({points: levelPoints, levels: [...levels, level], lastTime: +(now), metrika: path});
+        setUser(prev => ({...prev, metrika: path}))
+        patchData({metrika: path});
+    }
+
+    function sendEmail({email, isAdsAgreed}) {
+        setUser(prev => ({...prev, email, isAdsAgreed, metrika: {...prev.metrika, prize: true}}));
+        localStorage.setItem('itisuptoyou_email', 'send');
+        patchData({...user, email, isAdsAgreed, metrika: {...user.metrika, prize: true}});
     }
 
     function restart() {
         setCurrentScreen(INITIAL_STATE.screen);
         setLevels(INITIAL_STATE.levels);
-        setPoints(INITIAL_STATE.points);
-        setUser(prev => ({...prev, hasRestarted: true}));
-
-        patchData({levels: INITIAL_STATE.levels, points: INITIAL_STATE.points, hasRestarted: true});
     }
 
     function recordMetrika(index, additional = {}) {
+        if (hasEmail.current) {
+            return;
+        }
+
         const path = {...user.metrika};
         path[index] = true;
         setUser(prev => ({...prev, metrika: path, ...additional}))
@@ -134,8 +123,10 @@ export function ProgressProvider(props) {
         levels,
         restart,
         user,
-        points,
-        recordMetrika
+        recordMetrika,
+        createUser,
+        hasEmail: hasEmail.current,
+        sendEmail,
     }
 
     return (

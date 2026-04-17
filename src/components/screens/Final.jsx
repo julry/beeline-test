@@ -3,10 +3,8 @@ import wordT from '../../assets/images/word.svg';
 import wordB from '../../assets/images/wordYou.svg';
 import logoL from '../../assets/images/logo.svg';
 import info1 from '../../assets/images/endInfo1.svg';
-import info2 from '../../assets/images/endInfo2.svg';
 import box from '../../assets/images/introBox.png';
 import { useSizeRatio } from "../../contexts/SizeRatioContext";
-import {NoTransformSpan} from '../shared/NoTransormSpan';
 import { Button } from "../shared/Button";
 import { useProgress } from "../../contexts/ProgressContext";
 import { SCREEN_NAMES } from "../../constants/screens";
@@ -42,7 +40,7 @@ const Box = styled.img`
     position: absolute;
     object-fit: cover;
     right: 0;
-    top: 0;
+    top: ${({$ratio}) => $ratio * -20}px;
     height: ${({$ratio}) => $ratio * 370}px;
     width: ${({$ratio}) => $ratio * 322}px;
 `;
@@ -53,7 +51,7 @@ const Content = styled.div`
     align-items: center;
     font-size:  ${({$ratio}) => $ratio * 18}px;
     gap: ${({$ratio}) => $ratio * 10}px;
-    padding: ${({$ratio}) => $ratio * 17}px ${({$ratio}) => $ratio * 15}px ${({$ratio}) => $ratio * 140}px;
+    padding: ${({$ratio}) => $ratio * 27}px ${({$ratio}) => $ratio * 15}px ${({$ratio}) => $ratio * 140}px;
     margin: auto;
     
     & button:first-of-type {
@@ -64,7 +62,7 @@ const Content = styled.div`
 const TextBlock = styled.img`
     position: relative;
     z-index: 2;
-    margin-top: ${({$ratio}) => $ratio * 184}px;
+    margin-top: ${({$ratio}) => $ratio * 164}px;
     padding-left: ${({$ratio}) => $ratio * 7}px;
     height: ${({$size}) => $size[1]}px;
     width: ${({$size}) =>  $size[0]}px;
@@ -73,13 +71,10 @@ const TextBlock = styled.img`
 
 export const Final = () => {
     const ratio = useSizeRatio();
-    const { points, next, recordMetrika } = useProgress();
-
-    const isFirst = points.first > points.second;
+    const { next, hasEmail, restart } = useProgress();
 
     const handleGift = () => {
-        recordMetrika(5);
-        next(SCREEN_NAMES.FINISH);
+        next(SCREEN_NAMES.EMAIL);
     }
 
     return (
@@ -87,26 +82,30 @@ export const Final = () => {
             <WordTop $ratio={ratio} src={wordT} alt="" />
             <WordBottom $ratio={ratio} src={wordB} alt="" />
             <LogoLeft $ratio={ratio} src={logoL} alt="" />
-            <TextBlock $ratio={ratio} $size={isFirst ? [229 * ratio, 149 * ratio] : [226 * ratio, 139 * ratio]} src={isFirst ? info1 : info2} alt="" />
+            <TextBlock $ratio={ratio} $size={[187 * ratio, 121 * ratio]} src={info1} alt="" />
             <Box $ratio={ratio} src={box} alt="" />
             <Content $ratio={ratio}>
-                    {isFirst ? (
-                        <>
-                            <p> В <NoTransformSpan>Билайне</NoTransformSpan> ценят тех, кто не боится предлагать и ошибаться. Хочешь увидеть другие варианты? Попробуй пройти путь ещё раз, принимая другие решения</p>
-                            <p>Или сразу заявляй о себе — cлово за тобой</p>
-                        </>
-                    ) : (
-                        <>
-                            <p>Ты доказал, что твоё слово и действия имеют силу. В <NoTransformSpan>Билайне</NoTransformSpan> именно такие ребята — инициативные, смелые, с инженерным мышлением — строят будущее связи</p>
-                            <p>Готов сделать следующий шаг?</p>
-                        </>
-                    )}
-                <Button onClick={() => window.open('https://fut.ru/s/radioelectronic2', '_blank')}>
-                   узнать о стажировке в Билайне
+                <p>
+                    поздравляем! ты дошёл до конца и доказал, что твоё слово и действия имеют силу. готов получить заслуженный приз? оставляй почту, чтобы поучаствовать в розыгрыше
+                </p>
+                <p>а еще больше классных призов и полезной инфы о развитии в профессии ждет в боте — присоединяйся</p>
+                {
+                    !hasEmail && (
+                        <Button onClick={handleGift}>
+                            участвовать в розыгрыше
+                        </Button>
+                    )
+                }
+                <Button onClick={() => window.open('', '_blank')}>
+                    зарегистрироваться в боте
                 </Button>
-                <Button onClick={handleGift}>
-                    участвовать в розыгрыше
-                </Button>
+                {
+                    hasEmail && (
+                        <Button onClick={restart}>
+                            играть заново
+                        </Button>
+                    )
+                }
             </Content>
         </>
     )

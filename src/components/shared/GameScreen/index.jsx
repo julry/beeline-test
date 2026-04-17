@@ -186,7 +186,6 @@ export const GameScreen = (
     const [chosen, setChosen] = useState();
     const [answeredSubjects, setAnsweredSubjects] = useState([]);
     const [isFinishModal, setIsFinishModal] = useState(false);
-    const [answerPoints, setAnswerPoints] = useState([]);
     const [answered, setAnswered] = useState();
     const [imageX, setImageX] = useState(0);
     const [part, setPart] = useState(0);
@@ -224,7 +223,6 @@ export const GameScreen = (
         if (answered) return;
         setAnsweredSubjects(prev => [...prev, {name: chosen, answer: answerIndex}]);
         setAnswered(answer.id);
-        setAnswerPoints(prev => [...prev, answerIndex]);
     }
 
     const handleNextQuestion = () => {
@@ -237,9 +235,7 @@ export const GameScreen = (
     }
 
     const handleEndGame = () => {
-        const second = answerPoints.filter((answer) => answer === 2).length;
-        const first = answerPoints.length - second;
-        endGame({level: lvlId, answers: {first, second}, metrika});
+        endGame({level: lvlId, metrika});
 
         handleNext();
     };

@@ -17,6 +17,8 @@ export function useImagePreloader(images) {
     const preloadedRef = useRef({})
 
     useEffect(() => {
+        if (!images) return;
+        
         for (const image of images) {
             if (!preloadedRef.current[image]) {
                 preloadImage(image).then(() => preloadedRef.current[image] = true)

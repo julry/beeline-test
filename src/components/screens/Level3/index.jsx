@@ -157,7 +157,6 @@ export const Level3 = () => {
     const [isDone, setIsDone] = useState(false);
     const [isLose, setIsLose] = useState(false);
     const [isFinishModal, setIsFinishModal] = useState(false);
-    const [answerPoints, setAnswerPoints] = useState([]);
     const [answered, setAnswered] = useState();
     const lvlQuestions = questions.level3;
 
@@ -191,10 +190,9 @@ export const Level3 = () => {
 
     const questionModal = useMemo(() => lvlQuestions[chosen], [chosen, lvlQuestions]);
 
-    const handleAnswer = (answer, answerIndex) => {
+    const handleAnswer = (answer) => {
         if (answered) return;
         setAnswered(answer.id);
-        setAnswerPoints(prev => [...prev, answerIndex]);
         reset();
     }
 
@@ -210,9 +208,7 @@ export const Level3 = () => {
             return;
         };
 
-        const second = answerPoints.filter((answer) => answer === 2).length;
-        const first = answerPoints.length - second;
-        endGame({level: 'level3', answers: {first, second}, metrika: 'radioFinish'});
+        endGame({level: 'level3', metrika: 'radioFinish'});
 
         next(SCREEN_NAMES.FINAL);
     };
@@ -245,7 +241,7 @@ export const Level3 = () => {
                     <Title>{questionModal?.title}</Title>
                     <AnswerBlock>
                         {questionModal?.answers?.map((answer, index) => (
-                            <Answer key={answer.id} $isActive={answered === answer.id} $padding={answer?.padding} onClick={() => handleAnswer(answer, index + 1)}>
+                            <Answer key={answer.id} $isActive={answered === answer.id} $padding={answer?.padding} onClick={() => handleAnswer(answer)}>
                                 {answer.text}
                                 <AnswerSvg $top={answer.top} $left={answer.left}>
                                     {answer.svg}
