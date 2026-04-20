@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.c250cddb.css",
-    "main.js": "./static/js/main.9233ed16.js",
+    "main.js": "./static/js/main.5cdeca71.js",
     "static/media/fullLevel1.png": "./static/media/fullLevel1.cf26f1239c674e37a286.png",
     "static/media/fullLevel2.png": "./static/media/fullLevel2.ff770ed05f778b569b92.png",
     "static/media/fullLevel3.png": "./static/media/fullLevel3.b7523aaa7b9de0f6e436.png",
@@ -12,7 +12,6 @@
     "static/media/infoIntro.svg": "./static/media/infoIntro.9353727364f0ddeac46cca6a2f74305a.svg",
     "static/media/building.png": "./static/media/building.f5ca999eadf4eadd98fa.png",
     "static/media/level32.png": "./static/media/level32.4bce06a146353097fac1.png",
-    "static/media/endInfo2.svg": "./static/media/endInfo2.a87a082d6406d0cc7788bfb4b8f8a0b6.svg",
     "static/media/introBox.png": "./static/media/introBox.71f619b380372fad17a7.png",
     "static/media/endInfo1.svg": "./static/media/endInfo1.9ea779c5b629d94acf195d5b974687c0.svg",
     "static/media/wires.png": "./static/media/wires.231ef170aad23b4d35d0.png",
@@ -49,13 +48,15 @@
     "static/media/wordYou.svg": "./static/media/wordYou.d44d2666c0035ec7e6bd186d7d096941.svg",
     "static/media/word.svg": "./static/media/word.0161c04f54b9e19ba5432a0caa85dff4.svg",
     "static/media/officeGirlThink.svg": "./static/media/officeGirlThink.2555c47ab5567491a49b3441ee9703e7.svg",
+    "static/media/ballDesk2.svg": "./static/media/ballDesk2.d960e5f1de017b182380f5ce3a3c356f.svg",
     "static/media/logo.svg": "./static/media/logo.467b62134fa3c6152a5f0db9901dd5e8.svg",
+    "static/media/ballDesk3.svg": "./static/media/ballDesk3.7c84eda3adf9cb64797b8c143ebf9e4b.svg",
     "index.html": "./index.html",
     "main.c250cddb.css.map": "./static/css/main.c250cddb.css.map",
-    "main.9233ed16.js.map": "./static/js/main.9233ed16.js.map"
+    "main.5cdeca71.js.map": "./static/js/main.5cdeca71.js.map"
   },
   "entrypoints": [
     "static/css/main.c250cddb.css",
-    "static/js/main.9233ed16.js"
+    "static/js/main.5cdeca71.js"
   ]
 }
