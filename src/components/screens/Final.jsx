@@ -78,7 +78,7 @@ export const Final = () => {
     const isFirst = points.first > points.second;
 
     const handleGift = () => {
-        recordMetrika(5);
+        recordMetrika('prize');
         next(SCREEN_NAMES.FINISH);
     }
 

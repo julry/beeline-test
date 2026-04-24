@@ -177,6 +177,8 @@ export const Lobby = () => {
                 return 'три дня';
             case 0: 
                 return 'четыре дня';
+            default:
+                return 'четыре дня';
         }
     }
 

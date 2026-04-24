@@ -13,7 +13,7 @@ export function preloadImage (src) {
     })
 }
 
-export function useImagePreloader(images) {
+export function useImagePreloader(images = []) {
     const preloadedRef = useRef({})
 
     useEffect(() => {

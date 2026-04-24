@@ -3,7 +3,6 @@ import bridge from '@vkontakte/vk-bridge';
 import {createContext, useContext, useEffect, useRef, useState} from 'react';
 import {screens} from "../constants/screens";
 import { SCREEN_NAMES } from '../constants/screens';
-import {getUrlParam} from '../utils/getUrlParam';
 
 const INITIAL_STATE = {
     screen: SCREEN_NAMES.INTRO,
@@ -27,7 +26,7 @@ const ProgressContext = createContext(INITIAL_STATE);
 
 export function ProgressProvider(props) {
     const {children} = props;
-    const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
+    const [currentScreen, setCurrentScreen] = useState();
     const [levels, setLevels] = useState(INITIAL_STATE.levels);
     const [points, setPoints] = useState(INITIAL_STATE.points); 
     const [user, setUser] = useState(INITIAL_STATE.user);
@@ -39,7 +38,7 @@ export function ProgressProvider(props) {
     const getUserInfo = async () => {
         const info = await bridge.send('VKWebAppGetUserInfo');
         initState(info.id);
-        // initState(22823013);
+        // initState(183032184);
     };
 
 
@@ -53,25 +52,37 @@ export function ProgressProvider(props) {
     }, []);
 
     async function initState(vkId) {
-        const record = await client.current.findRecord('vkId', vkId ?? 22823013);
+        try {
+            const record = await client.current.findRecord('vkId', vkId ?? 22823013);
 
-        recordId.current = record?.id;
+            recordId.current = record?.id;
 
-        if (!record?.data) {
-            return;
+            if (!record?.data) {
+                return;
+            }
+
+            const gameData = record.data.BeelineGame ?? {};
+
+            const {levels: gameLevels, points: gamePoints, ...gameUser} = gameData;
+
+            setLevels(gameLevels ?? INITIAL_STATE.levels);
+            setPoints(gamePoints ?? INITIAL_STATE.points);
+            setUser(prev => ({...prev, ...(gameUser ?? {})}));
+
+            if (gameLevels && gameLevels?.length > 0) {
+                if (gameLevels.includes('level3')) {
+                    const isPrize = gameUser?.metrika?.prize;
+                    setCurrentScreen(isPrize ? SCREEN_NAMES.FINISH : SCREEN_NAMES.FINAL);
+
+                    return;
+                }
+
+                setCurrentScreen(SCREEN_NAMES.LOBBY);
+            }
+        } catch (e) {
+            console.log('Error init', e);
         }
-
-        const gameData = record.data.BeelineGame ?? {};
-
-        const {levels: gameLevels, points: gamePoints, ...gameUser} = gameData;
-
-        setLevels(gameLevels ?? INITIAL_STATE.levels);
-        setPoints(gamePoints ?? INITIAL_STATE.points);
-        setUser(prev => ({...prev, ...(gameUser ?? {})}));
-
-        if (gameLevels && gameLevels?.length > 0) {
-            setCurrentScreen(gameLevels.includes('level3') ? SCREEN_NAMES.FINAL : SCREEN_NAMES.LOBBY);
-        }
+        
     }
 
     const patchData = async (changed) => {
